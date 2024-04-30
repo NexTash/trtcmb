@@ -49,7 +49,7 @@ class TCMBConnection:
                                 "for_buying": 1
                             }):
                         continue
-                    else:
+                    elif currency.get("currency_name") != "XAU":
                         TCMBCurrencyExchange.commit_single_currency_exchange_rate(
                             self.get_single_exchange_rate(currency=currency.get("currency_name"),
                                                           for_date=exchange_rate_day,
@@ -64,12 +64,13 @@ class TCMBConnection:
                                 "for_selling": 1
                             }):
                         continue
-                    else:
+                    elif currency.get("currency_name") != "XAU":
                         TCMBCurrencyExchange.commit_single_currency_exchange_rate(
                             self.get_single_exchange_rate(currency=currency.get("currency_name"),
                                                           for_date=exchange_rate_day,
                                                           purpose="for_selling"))
-                elif self.enable_update == 1:
+                elif self.enable_update == 1 \
+                        and currency.get("currency_name") != "XAU":
                     TCMBCurrencyExchange.commit_single_currency_exchange_rate(
                         self.get_single_exchange_rate(currency=currency.get("currency_name"),
                                                       for_date=exchange_rate_day,
