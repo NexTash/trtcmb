@@ -39,9 +39,7 @@ class TCMBConnection:
             exchange_rate_day = tcmb_start_date + datetime.timedelta(days=i)
             for currency in currency_list:
                 if self.enable_update == 0:
-                    if currency.get("currency_name") != "TRY" and \
-                            currency.get("currency_name") != "XAU" and \
-                            frappe.db.exists({
+                    if frappe.db.exists({
                                 "doctype": TCMBCurrencyExchange.doctype,
                                 "date": exchange_rate_day,
                                 "from_currency": currency.get("currency_name"),
@@ -49,14 +47,12 @@ class TCMBConnection:
                                 "for_buying": 1
                             }):
                         continue
-                    elif currency.get("currency_name") != "XAU":
+                    else:
                         TCMBCurrencyExchange.commit_single_currency_exchange_rate(
                             self.get_single_exchange_rate(currency=currency.get("currency_name"),
                                                           for_date=exchange_rate_day,
                                                           purpose="for_buying"))
-                    if currency.get("currency_name") != "TRY" and \
-                            currency.get("currency_name") != "XAU" and \
-                            frappe.db.exists({
+                    if frappe.db.exists({
                                 "doctype": TCMBCurrencyExchange.doctype,
                                 "date": exchange_rate_day,
                                 "from_currency": currency.get("currency_name"),
@@ -64,13 +60,12 @@ class TCMBConnection:
                                 "for_selling": 1
                             }):
                         continue
-                    elif currency.get("currency_name") != "XAU":
+                    else:
                         TCMBCurrencyExchange.commit_single_currency_exchange_rate(
                             self.get_single_exchange_rate(currency=currency.get("currency_name"),
                                                           for_date=exchange_rate_day,
                                                           purpose="for_selling"))
-                elif self.enable_update == 1 \
-                        and currency.get("currency_name") != "XAU":
+                elif self.enable_update == 1:
                     TCMBCurrencyExchange.commit_single_currency_exchange_rate(
                         self.get_single_exchange_rate(currency=currency.get("currency_name"),
                                                       for_date=exchange_rate_day,
