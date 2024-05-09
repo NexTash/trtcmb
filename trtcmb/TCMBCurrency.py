@@ -23,7 +23,6 @@ class TCMBCurrency:
         # TCMB enabled currencies
         key = frappe.db.get_value(cls.company_setting_doctype, frappe.defaults.get_user_default(cls.company_doctype),
                                   "key")
-        url = ""
         # Exchange, rates, Daily, (Converted, to, TRY)
         code = cls.code_prefix + cls.datagroup_code
         return_type = cls.type_prefix + cls.response_type
